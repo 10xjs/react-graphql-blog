@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declaration": false,
+    // Allow "synthetic default imports" to be able to consume commonjs modules
+    // as es6 modules. This makes TypeScript behave like Babel.
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "paths": {
+      // Enable root-relative imports project-wide
+      "/*": ["src/*"]
+    },
+    // Types in lib declarations our outside of the scope of the project. Don't
+    // bother checking them.
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictBindCallApply": true,
+    // Don't suppress implicit any index errors. (false is the default here,
+    // but this option is set explcitly here to document the concern, see:
+    // https://medium.com/@_achou/ca6b208b9365)
+    "suppressImplicitAnyIndexErrors": false,
+    // IE 11 still does not support many es6 features.
+    // see: https://kangax.github.io/compat-table/es6/
+    "target": "es5"
+  },
+  "plugins": [
+    {
+      "name": "typescript-styled-plugin"
+    }
+  ],
+  "exclude": ["node_modules"],
+  "include": ["src", "script", "config", "type"]
+}

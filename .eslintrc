@@ -1,0 +1,79 @@
+# Parse all files with TypeScript.
+parser: '@typescript-eslint/parser'
+parserOptions:
+  project: tsconfig.json
+
+plugins:
+  - react
+  - react-hooks
+  - prettier
+  - '@typescript-eslint'
+
+extends:
+  # Enable default rule sets for enabled plugins.
+  - eslint:recommended
+  - plugin:react/recommended
+  - plugin:@typescript-eslint/recommended
+
+settings:
+  react:
+    version: detect
+env:
+  es6: true
+  browser: true
+
+  # Webpack provides mocks or polyfills for most node globals by default.
+  node: true
+rules:
+  # Require all code to be correctly formatted with Prettier.
+  prettier/prettier: error
+
+  # Don't require components to have display names. The check behind this rule
+  # isn't 100% accurate in differenciating function components from others that
+  # may return JSX. Additoinally with minification enabled, all implicit
+  # component display names will be removed.
+  react/display-name: off
+
+  # Enforce strict best practices when using React hooks.
+  react-hooks/rules-of-hooks: error
+  react-hooks/exhaustive-deps: error
+
+  # Component interfaces are defined with TypeScript.
+  react/prop-types: off
+
+  # Prettier enforces indentation globally. Disable any other indent rules to
+  # prevent any conflicts.
+  '@typescript-eslint/indent': off
+
+  # The any type can be used responsibily in many situations.
+  '@typescript-eslint/no-explicit-any': off
+  '@typescript-eslint/no-unused-vars':
+    - error
+    - varsIgnorePattern: _
+      argsIgnorePattern: _
+
+  # Return types are inferred correctly in the vast majority of cases.
+  '@typescript-eslint/explicit-function-return-type': off
+
+  # It is useful to declare an empty interface when merging an interface by
+  # extending it.
+  '@typescript-eslint/no-empty-interface': off
+
+  # TypeScript's class member accessibility syntax differs from the proposed
+  # es syntax. Prefer the established _ prefix convention to define "private"
+  # members.
+  '@typescript-eslint/explicit-member-accessibility': off
+
+overrides:
+  # Enable the global jest environment in test files.
+  - files:
+      - "*.test.ts"
+      - "*.test.tsx"
+    env:
+      jest: true
+
+  # Allow console in scripts.
+  - files:
+      - "script/*.ts"
+    rules:
+      no-console: off
