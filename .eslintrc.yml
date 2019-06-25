@@ -8,6 +8,7 @@ plugins:
   - react-hooks
   - prettier
   - '@typescript-eslint'
+  - 'graphql'
 
 extends:
   # Enable default rule sets for enabled plugins.
@@ -25,6 +26,10 @@ env:
   # Webpack provides mocks or polyfills for most node globals by default.
   node: true
 rules:
+  graphql/template-strings:
+    - error
+    - schemaJsonFilepath: schema.json
+
   # Require all code to be correctly formatted with Prettier.
   prettier/prettier: error
 
@@ -67,13 +72,13 @@ rules:
 overrides:
   # Enable the global jest environment in test files.
   - files:
-      - "*.test.ts"
-      - "*.test.tsx"
+      - '*.test.ts'
+      - '*.test.tsx'
     env:
       jest: true
 
   # Allow console in scripts.
   - files:
-      - "script/*.ts"
+      - 'script/*.ts'
     rules:
-      no-console: off
+      'no-console': off

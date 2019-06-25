@@ -15,7 +15,7 @@ declare module 'pages-webpack-plugin' {
 
   interface Options<R, P> {
     mapStatsToProps(stats: webpack.Stats): P;
-    render(props: P & Props): Promise<R> | R;
+    render(props: Props & P): Promise<R> | R;
     mapResults?: (
       results: (R & {filename: string; path: string})[],
       compilation: webpack.compilation.Compilation,

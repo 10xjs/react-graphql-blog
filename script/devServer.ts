@@ -9,7 +9,7 @@ import MemoryFileSystem from 'memory-fs';
 
 import clientConfig from '../config/webpack/client';
 import renderConfig from '../config/webpack/render';
-import renderMiddleware from './renderMiddleware';
+import renderMiddleware from './devRenderMiddleware';
 import {AddressInfo} from 'net';
 
 clientConfig.entry.unshift('webpack-hot-middleware/client');

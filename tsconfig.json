@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "baseUrl": ".",
     "declaration": false,
     // Allow "synthetic default imports" to be able to consume commonjs modules

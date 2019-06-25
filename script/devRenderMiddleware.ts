@@ -85,7 +85,7 @@ function renderMiddleware(
 
       const render = await watchRender.import('../dist/render/main.js');
 
-      const {markup, status} = await render.default({
+      const {markup, statusCode} = await render.default({
         path,
         stats: stats.toJson({
           source: false,
@@ -96,7 +96,7 @@ function renderMiddleware(
         }),
       });
 
-      res.status(status).send(markup);
+      res.status(statusCode).send(markup);
     } catch (e) {
       next(e);
     }

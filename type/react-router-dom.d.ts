@@ -1,3 +1,6 @@
+/// <reference types="react" />
+/// <reference types="react-router" />
+
 import {RouteComponentProps} from 'react-router';
 import {Context} from 'react';
 

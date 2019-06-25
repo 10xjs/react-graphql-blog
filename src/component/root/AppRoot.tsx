@@ -24,5 +24,6 @@ const AppRoot = (): React.ReactElement => {
 };
 
 AppRoot.rootElementId = 'root';
+AppRoot.stateElementId = 'state';
 
 export default hot(module)(AppRoot);

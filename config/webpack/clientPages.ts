@@ -4,6 +4,8 @@ import webpack from 'webpack';
 // @ts-ignore
 import PagesPlugin from 'pages-webpack-plugin';
 
+import {Render} from '/render/types';
+
 import clientConfig from './client';
 
 const render = require(path.join(
@@ -11,7 +13,7 @@ const render = require(path.join(
   'dist',
   'render',
   'main.js',
-)).default;
+)).default as Render;
 
 const config = {
   ...clientConfig,
@@ -20,17 +22,15 @@ const config = {
 
     new PagesPlugin({
       paths: ['/', '/404.html'],
-      mapStatsToProps(stats: webpack.Stats) {
-        return {
-          stats: stats.toJson({
-            source: false,
-            chunks: false,
-            modules: false,
-            entrypoints: false,
-            excludeAssets: (name) => /\.hot-update\./.test(name),
-          }),
-        };
-      },
+      mapStatsToProps: (stats: webpack.Stats) => ({
+        stats: stats.toJson({
+          source: false,
+          chunks: false,
+          modules: false,
+          entrypoints: false,
+          excludeAssets: (name) => /\.hot-update\./.test(name),
+        }),
+      }),
       render,
       mapResults(results: any[]) {
         return results.map((result) => {

@@ -1,83 +1,117 @@
 import React from 'react';
-import {Stats} from 'webpack';
 import ReactDOMServer from 'react-dom/server';
 import {ServerStyleSheet, StyleSheetManager} from 'styled-components';
 import {StaticRouter} from 'react-router-dom';
-import Helmet from 'react-helmet';
-import {Location} from 'history';
+import {StaticContext} from 'react-router';
+import {HelmetProvider, FilledContext} from 'react-helmet-async';
+import {ApolloProvider} from '@apollo/react-common';
+import {getDataFromTree} from '@apollo/react-hooks';
+import {ApolloClient} from 'apollo-client';
+import {NormalizedCacheObject} from 'apollo-cache-inmemory';
+import {Stats} from 'webpack';
+import nodeFetch from 'node-fetch';
 
+import {Client} from '/apollo/Client';
 import AppRoot from '/component/root/AppRoot';
 import Page from './Page';
-import reduceAssets from './reduceAssets';
+import {renderAssets} from './assets';
 
-interface RenderConfig {
-  stats: Stats.ToJsonOutput;
-  path: string;
-}
+import {Render} from './types';
 
-type RenderResult =
-  | {
-      status: number;
-      location: string;
-    }
-  | {
-      status: number;
-      markup: string;
-    };
+async function renderApp(
+  client: ApolloClient<any>,
+  location: string,
+  render: (
+    element: React.ReactElement,
+  ) => string | Promise<string> = ReactDOMServer.renderToStaticMarkup,
+) {
+  const routerContext: StaticContext = {};
+  const helmetContext = {};
+  const serverStyleSheet = new ServerStyleSheet();
 
-interface RouterContext {
-  statusCode: number;
-  location?: Location;
-}
-
-declare module 'react-router' {
-  export interface StaticRouterContext extends RouterContext {}
-}
-
-const render = ({stats, path}: RenderConfig): RenderResult => {
-  const routerContext: RouterContext = {statusCode: 200};
-
-  const location = path.replace(/index\.html$/, '');
-
-  const sheet = new ServerStyleSheet();
-
-  const markup = ReactDOMServer.renderToStaticMarkup(
-    <StyleSheetManager sheet={sheet.instance}>
-      <StaticRouter location={location} context={routerContext}>
-        <AppRoot />
-      </StaticRouter>
+  const markup = await render(
+    <StyleSheetManager sheet={serverStyleSheet.instance}>
+      <HelmetProvider context={helmetContext}>
+        <ApolloProvider client={client}>
+          <StaticRouter location={location} context={routerContext}>
+            <AppRoot />
+          </StaticRouter>
+        </ApolloProvider>
+      </HelmetProvider>
     </StyleSheetManager>,
   );
 
-  const style = sheet.getStyleElement();
+  return {
+    serverStyleSheet,
+    routerContext,
+    helmetContext: helmetContext as FilledContext,
+    markup,
+  };
+}
 
-  const helmet = Helmet.renderStatic();
+function renderPage(
+  markup: string,
+  state: NormalizedCacheObject,
+  helmet: FilledContext['helmet'],
+  serverStyleSheet: ServerStyleSheet,
+  stats: Stats.ToJsonOutput,
+) {
+  return ReactDOMServer.renderToStaticMarkup(
+    <Page
+      head={
+        <>
+          {helmet.title.toComponent()}
+          {helmet.meta.toComponent()}
+          {helmet.link.toComponent()}
+          {helmet.style.toComponent()}
+          {helmet.script.toComponent()}
+          {serverStyleSheet.getStyleElement()}
+          {renderAssets(stats, 'main', /\.css$/)}
+        </>
+      }
+      htmlAttributes={helmet.htmlAttributes.toComponent()}
+      bodyAttributes={helmet.bodyAttributes.toComponent()}
+      markup={markup}
+      rootElementId={AppRoot.rootElementId}
+      foot={
+        <>
+          <script
+            id={AppRoot.stateElementId}
+            type="text/json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(state),
+            }}
+          />
+          {renderAssets(stats, 'main', /\.js$/)}
+        </>
+      }
+    />,
+  );
+}
+
+const render: Render = async ({stats, path}) => {
+  const location = path.replace(/index\.html$/, '');
+
+  const client = new Client({ssrMode: true, fetch: nodeFetch as any});
+
+  let result = await renderApp(client, location, getDataFromTree);
+
+  const state = client.extract();
+
+  if (result.routerContext.location === undefined) {
+    result = await renderApp(client, location);
+  }
 
   return {
-    status: routerContext.statusCode,
-    location,
-    markup:
-      routerContext.location === undefined
-        ? `<!doctype html>${ReactDOMServer.renderToStaticMarkup(
-            <Page
-              assets={reduceAssets(stats)}
-              head={
-                <>
-                  {helmet.title.toComponent()}
-                  {helmet.meta.toComponent()}
-                  {helmet.link.toComponent()}
-                  {helmet.style.toComponent()}
-                  {helmet.script.toComponent()}
-                  {style}
-                </>
-              }
-              htmlAttributes={helmet.htmlAttributes.toComponent()}
-              bodyAttributes={helmet.bodyAttributes.toComponent()}
-              markup={markup}
-              rootElementId={AppRoot.rootElementId}
-            />,
-          )}`
-        : '',
+    statusCode: result.routerContext.statusCode || 200,
+    location: result.routerContext.location,
+    markup: renderPage(
+      result.markup,
+      state,
+      result.helmetContext.helmet,
+      result.serverStyleSheet,
+      stats,
+    ),
   };
 };
 

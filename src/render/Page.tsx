@@ -1,38 +1,19 @@
 import React from 'react';
 
-import {Asset} from './reduceAssets';
-
-const scripts = (assets: Asset[] = []): React.ReactElement[] =>
-  assets
-    .filter((asset) => /\.js$/.test(asset.name))
-    .map((asset) => <script src={asset.url} key={asset.name} />);
-
-const styles = (assets: Asset[] = []): React.ReactElement[] =>
-  assets
-    .filter((asset) => /\.css$/.test(asset.name))
-    .map((asset) => (
-      <link
-        rel="stylesheet"
-        type="text/css"
-        href={asset.url}
-        key={asset.name}
-      />
-    ));
-
 interface PageProps {
   rootElementId: string;
-  assets: Record<string, Asset[]>;
+  head: React.ReactNode;
   markup: string;
-  head: React.ReactChild;
+  foot: React.ReactNode;
   htmlAttributes: React.HTMLAttributes<HTMLElement>;
   bodyAttributes: React.HTMLAttributes<HTMLElement>;
 }
 
 const Page = ({
   rootElementId,
-  assets,
-  markup,
   head,
+  markup,
+  foot,
   htmlAttributes,
   bodyAttributes,
 }: PageProps): React.ReactElement => (
@@ -40,7 +21,6 @@ const Page = ({
     <head>
       <meta charSet="utf-8" />
       {head}
-      {styles(assets.index)}
     </head>
     <body {...bodyAttributes}>
       <div
@@ -48,7 +28,7 @@ const Page = ({
         className="root"
         dangerouslySetInnerHTML={{__html: markup}}
       />
-      {scripts(assets.main)}
+      {foot}
     </body>
   </html>
 );
