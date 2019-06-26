@@ -1,7 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
 
-// @ts-ignore
 import PagesPlugin from 'pages-webpack-plugin';
 
 import {RenderModule} from '/render/types';

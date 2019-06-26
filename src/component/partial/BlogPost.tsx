@@ -1,9 +1,9 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import {useDateTimeFormat} from '/util/intlHooks';
-import ReactMarkdown from 'react-markdown';
 
-import {Highlight} from '/component/base/Highlight';
+import {useDateTimeFormat} from '/util/intlHooks';
+
+import {Markdown} from '/component/base/Markdown';
 
 import {BlogPost_BlogPost} from './__generated__/BlogPost_BlogPost';
 export {BlogPost_BlogPost};
@@ -13,7 +13,7 @@ export const BlogPostFragments = {
     fragment BlogPost_BlogPost on BlogPost {
       title
       createdAt
-      slug
+      handle
       content
     }
   `,
@@ -22,32 +22,6 @@ export const BlogPostFragments = {
 interface Props {
   blogPost: BlogPost_BlogPost;
 }
-
-interface HeadingProps {
-  level: number;
-  children: React.ReactElement[];
-}
-
-function elementText(elements: React.ReactElement[]): string {
-  return elements.reduce((acc, element) => {
-    if (Array.isArray(element.props.children)) {
-      return acc + elementText(element.props.children);
-    }
-
-    return acc + (element.props.value || '');
-  }, '');
-}
-
-const Heading = ({level, children}: HeadingProps) => {
-  const H = `h${level}` as 'h1';
-
-  const id = elementText(children)
-    .replace(/(^\W+|\W+$)/g, '')
-    .replace(/\W+/g, '-')
-    .toLowerCase();
-
-  return <H id={id}>{children}</H>;
-};
 
 export const BlogPost = ({blogPost}: Props) => {
   return (
@@ -60,11 +34,7 @@ export const BlogPost = ({blogPost}: Props) => {
         })}
       </time>
       <h2>{blogPost.title}</h2>
-      <ReactMarkdown
-        source={blogPost.content}
-        renderers={{code: Highlight, heading: Heading}}
-        skipHtml
-      />
+      <Markdown source={blogPost.content} />
     </article>
   );
 };

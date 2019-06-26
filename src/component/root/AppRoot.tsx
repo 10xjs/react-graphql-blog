@@ -18,7 +18,7 @@ const AppRoot = (): React.ReactElement => {
         <Route exact path="/" component={HomeView} />
         <Route exact path="/about" component={AboutView} />
         <Route exact path="/contact" component={ContactView} />
-        <Route exact path="/post/:slug" component={BlogPostView} />
+        <Route exact path="/post/:handle" component={BlogPostView} />
         <Route component={NotFoundView} />
       </Switch>
     </ThemeProvider>

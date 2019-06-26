@@ -1,10 +1,11 @@
 import {hljs} from '/util/hljs';
+import {RollingMap} from '/util/RollingMap';
 
 import {HLJSWorker} from './types';
 
 const context: HLJSWorker = self as any;
 
-const cache = new Map<string, hljs.IHighlightResult>();
+const cache = new RollingMap<string, hljs.IHighlightResult>(10);
 
 function highlight(language: string, value: string) {
   const key = language + value;
@@ -16,6 +17,7 @@ function highlight(language: string, value: string) {
   const result = hljs.highlight(language, value);
 
   cache.set(key, result);
+
   return result;
 }
 

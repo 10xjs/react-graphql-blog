@@ -35,7 +35,8 @@ export interface HomeViewQuery_blogPosts_edges_node {
   id: string;
   title: string;
   createdAt: GraphQL.DateTime;
-  slug: string;
+  publishedAt: GraphQL.DateTime | null;
+  handle: string;
 }
 
 export interface HomeViewQuery_blogPosts_edges {

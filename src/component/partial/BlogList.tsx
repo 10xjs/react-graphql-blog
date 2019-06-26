@@ -7,10 +7,10 @@ import {
 } from '/component/partial/BlogPostPreview';
 
 import {
-  BlogList_BlogPostConnection,
-  BlogList_BlogPostConnection_edges,
-} from './__generated__/BlogList_BlogPostConnection';
-export {BlogList_BlogPostConnection, BlogList_BlogPostConnection_edges};
+  BlogList_BlogPostsConnection,
+  BlogList_BlogPostsConnection_edges,
+} from './__generated__/BlogList_BlogPostsConnection';
+export {BlogList_BlogPostsConnection, BlogList_BlogPostsConnection_edges};
 
 export const BlogListFramgents = {
   BlogPostsConnection: gql`
@@ -37,7 +37,7 @@ export const BlogListFramgents = {
 };
 
 interface Props {
-  blogPosts: BlogList_BlogPostConnection;
+  blogPosts: BlogList_BlogPostsConnection;
 }
 
 export const BlogList = ({blogPosts}: Props): React.ReactElement => {

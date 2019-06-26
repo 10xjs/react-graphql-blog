@@ -3,6 +3,7 @@ import {InMemoryCache, NormalizedCacheObject} from 'apollo-cache-inmemory';
 import {HttpLink} from 'apollo-link-http';
 import {ApolloLink} from 'apollo-link';
 
+// @ts-ignore
 import config from '/../apollo.config';
 
 interface ClientOptions {

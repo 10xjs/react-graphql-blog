@@ -13,14 +13,15 @@ export const BlogPostPreviewFragments = {
     fragment BlogPostPreview_BlogPost on BlogPost {
       title
       createdAt
-      slug
+      publishedAt
+      handle
     }
   `,
 };
 
 const BlogPostPrefetchQuery = gql`
-  query BlogPostPrefetchQuery($slug: String!) {
-    blogPost(where: {slug: $slug}) {
+  query BlogPostPrefetchQuery($handle: String!) {
+    blogPost(where: {handle: $handle}) {
       ...BlogPostPreview_BlogPost
     }
   }
@@ -32,15 +33,15 @@ interface Props {
 }
 
 export const BlogPostPreview = ({blogPost}: Props) => {
-  useQuery(BlogPostPrefetchQuery, {variables: {slug: blogPost.slug}});
+  useQuery(BlogPostPrefetchQuery, {variables: {handle: blogPost.handle}});
 
   return (
     <article>
-      <Link to={{pathname: `/post/${blogPost.slug}`}}>
+      <Link to={{pathname: `/post/${blogPost.handle}`}}>
         <h2>{blogPost.title}</h2>
       </Link>
-      <time dateTime={blogPost.createdAt}>
-        {useDateTimeFormat(blogPost.createdAt, {
+      <time dateTime={blogPost.publishedAt || blogPost.createdAt}>
+        {useDateTimeFormat(blogPost.publishedAt || blogPost.createdAt, {
           month: 'short',
           day: 'numeric',
           year: 'numeric',
