@@ -85,8 +85,14 @@ overrides:
     env:
       jest: true
 
-  # Allow console in scripts.
+  # Allow console in scripts and server code.
   - files:
-      - 'script/*.ts'
+      - 'script/*'
+      - 'src/render/*'
     rules:
       'no-console': off
+
+  # Allow "unused vars" in type declaration files
+  - files: '*.d.ts'
+    rules:
+      '@typescript-eslint/no-unused-vars': off

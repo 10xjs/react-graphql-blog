@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import {Highlight} from '/component/base/Highlight';
 
 import {BlogPost_BlogPost} from './__generated__/BlogPost_BlogPost';
+export {BlogPost_BlogPost};
 
 export const BlogPostFragments = {
   BlogPost: gql`

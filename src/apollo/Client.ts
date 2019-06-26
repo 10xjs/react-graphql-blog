@@ -1,6 +1,6 @@
 import {ApolloClient} from 'apollo-client';
 import {InMemoryCache, NormalizedCacheObject} from 'apollo-cache-inmemory';
-import {createHttpLink} from 'apollo-link-http';
+import {HttpLink} from 'apollo-link-http';
 import {ApolloLink} from 'apollo-link';
 
 import config from '/../apollo.config';
@@ -20,7 +20,7 @@ export class Client extends ApolloClient<NormalizedCacheObject> {
     }
 
     const link = ApolloLink.from([
-      createHttpLink({
+      new HttpLink({
         fetch,
         uri: config.client.service.url,
       }),
