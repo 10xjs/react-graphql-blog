@@ -6,7 +6,7 @@ interface Props {
   title: string;
 }
 
-const Layout = ({children, title}: Props): React.ReactElement => {
+export const Layout = ({children, title}: Props): React.ReactElement => {
   return (
     <>
       <Helmet>
@@ -17,5 +17,3 @@ const Layout = ({children, title}: Props): React.ReactElement => {
     </>
   );
 };
-
-export default React.memo(Layout);

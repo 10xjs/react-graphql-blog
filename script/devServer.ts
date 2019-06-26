@@ -1,4 +1,4 @@
-import http from 'http';
+import Http from 'http';
 
 import webpack from 'webpack';
 import express from 'express';
@@ -9,10 +9,14 @@ import MemoryFileSystem from 'memory-fs';
 
 import clientConfig from '../config/webpack/client';
 import renderConfig from '../config/webpack/render';
-import renderMiddleware from './devRenderMiddleware';
+import {renderMiddleware} from './devRenderMiddleware';
 import {AddressInfo} from 'net';
 
 clientConfig.entry.unshift('webpack-hot-middleware/client');
+(clientConfig as any).resolve.alias = {
+  ...(clientConfig as any).resolve.alias,
+  'react-dom': '@hot-loader/react-dom',
+};
 
 const clientCompiler = webpack(clientConfig as webpack.Configuration);
 clientCompiler.apply(new webpack.HotModuleReplacementPlugin());
@@ -42,7 +46,7 @@ app.on('error', (error) => {
   throw error;
 });
 
-const server = killable(http.createServer(app));
+const server = killable(Http.createServer(app));
 
 server.on('error', (error) => {
   throw error;

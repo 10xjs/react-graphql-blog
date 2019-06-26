@@ -37,11 +37,16 @@ const base = (seed: webpack.Configuration) => ({
         ],
       },
       {
-        test: /\.js$/,
+        test: /\.worker\.[tj]sx?$/,
         use: {
-          loader: require.resolve('source-map-loader'),
+          loader: require.resolve('worker-loader'),
+          options: {
+            name:
+              process.env.NODE_ENV !== 'production'
+                ? '[name].js'
+                : '[name].[hash:8].js',
+          },
         },
-        enforce: 'pre',
       },
       {
         test: /\.[tj]sx?$/,
@@ -57,11 +62,30 @@ const base = (seed: webpack.Configuration) => ({
           },
         },
       },
+      {
+        test: /\.js$/,
+        use: {
+          loader: require.resolve('source-map-loader'),
+        },
+        enforce: 'pre',
+      },
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: [
+      `.${seed.target}.ts`,
+      `.${seed.target}.tsx`,
+      `.${seed.target}.js`,
+      `.${seed.target}.jsx`,
+      '.ts',
+      '.tsx',
+      '.js',
+      '.jsx',
+    ],
     plugins: [new TsConfigPathsPlugin()],
+    alias: {
+      'highlight.js$': 'highlight.js/lib/highlight',
+    },
   },
   plugins: [
     new webpack.DefinePlugin({

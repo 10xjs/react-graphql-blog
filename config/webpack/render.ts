@@ -5,8 +5,8 @@ import base from './base';
 
 const baseConfig = base({target: 'node'});
 
-const outputPath = path.join(baseConfig.context || '', 'dist', 'render');
-const entryPath = path.join(baseConfig.context || '', 'src', 'render');
+export const outputPath = path.join(baseConfig.context || '', 'dist', 'render');
+export const entryPath = path.join(baseConfig.context || '', 'src', 'render');
 
 const config = {
   ...baseConfig,

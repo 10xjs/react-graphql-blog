@@ -1,23 +1,30 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import {useQuery, QueryHookOptions} from '@apollo/react-hooks';
+import {useQuery} from '@apollo/react-hooks';
 
-import Layout from '/component/partial/Layout';
-import TopBar from '/component/partial/TopBar';
+import {Layout} from '/component/partial/Layout';
+import {TopBar} from '/component/partial/TopBar';
+
+import {
+  BlogPostPreview,
+  BlogPostPreviewFragments,
+} from '/component/partial/BlogPostPreview';
+
+import {BlogPostOrderByInput} from '../../__generated__/schema';
 
 import {
   HomeViewQuery,
   HomeViewQueryVariables,
 } from './__generated__/HomeViewQuery';
 
-const query = gql`
+const HomeViewQuery = gql`
   query HomeViewQuery(
     $first: Int
     $skip: Int
     $where: BlogPostWhereInput
     $orderBy: BlogPostOrderByInput
   ) {
-    posts: blogPostsConnection(
+    blogPosts: blogPostsConnection(
       first: $first
       skip: $skip
       where: $where
@@ -34,33 +41,38 @@ const query = gql`
       }
       edges {
         node {
-          status
-          updatedAt
-          createdAt
           id
-          title
-          content
-          slug
+          ...BlogPostPreview_BlogPost
         }
       }
     }
   }
+
+  ${BlogPostPreviewFragments.BlogPost}
 `;
 
-const HomeView = (): React.ReactElement => {
-  const result = useQuery<HomeViewQuery, HomeViewQueryVariables>(query);
+export const HomeView = (): React.ReactElement => {
+  const result = useQuery<HomeViewQuery, HomeViewQueryVariables>(
+    HomeViewQuery,
+    {
+      variables: {
+        orderBy: BlogPostOrderByInput.createdAt_ASC,
+      },
+    },
+  );
 
   return (
     <Layout title="Home">
       <TopBar />
-      <h1>Home</h1>
-      {result.data && !result.loading
-        ? result.data.blogPosts.edges.map((edge) => {
-            return <h2 key={edge!.node.id}>{edge!.node.title}</h2>;
-          })
-        : 'loading'}
+      <main>
+        {result.data && !result.loading
+          ? result.data.blogPosts.edges.map((edge) => {
+              return (
+                <BlogPostPreview key={edge!.node.id} blogPost={edge!.node} />
+              );
+            })
+          : 'loading'}
+      </main>
     </Layout>
   );
 };
-
-export default React.memo(HomeView);

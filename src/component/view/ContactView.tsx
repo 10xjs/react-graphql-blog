@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Layout from '/component/partial/Layout';
-import TopBar from '/component/partial/TopBar';
+import {Layout} from '/component/partial/Layout';
+import {TopBar} from '/component/partial/TopBar';
 
-const ContactView = (): React.ReactElement => {
+export const ContactView = (): React.ReactElement => {
   return (
     <Layout title="Contact">
       <TopBar />
@@ -57,5 +57,3 @@ const ContactView = (): React.ReactElement => {
     </Layout>
   );
 };
-
-export default React.memo(ContactView);

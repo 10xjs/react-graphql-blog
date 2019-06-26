@@ -13,8 +13,6 @@ declare module 'styled-components' {
   export interface DefaultTheme extends Theme {}
 }
 
-const theme: Theme = {
+export const theme: Theme = {
   color,
 };
-
-export default theme;

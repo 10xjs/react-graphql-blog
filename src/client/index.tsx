@@ -6,7 +6,7 @@ import {ApolloProvider} from '@apollo/react-common';
 
 import {Client} from '/apollo/Client';
 
-import AppRoot from '/component/root/AppRoot';
+import {AppRoot} from '/component/root/AppRoot';
 
 const rootElement = document.getElementById(AppRoot.rootElementId);
 
@@ -31,7 +31,8 @@ const client = new Client({state});
 
 const getRoot = () => {
   // eslint-disable-next-line no-undef
-  const AppRoot = require('../component/root/AppRoot').default;
+  const {AppRoot} = require('../component/root/AppRoot');
+
   return (
     <HelmetProvider>
       <ApolloProvider client={client}>

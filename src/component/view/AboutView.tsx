@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Layout from '/component/partial/Layout';
-import TopBar from '/component/partial/TopBar';
+import {Layout} from '/component/partial/Layout';
+import {TopBar} from '/component/partial/TopBar';
 
-const AboutView = (): React.ReactElement => {
+export const AboutView = (): React.ReactElement => {
   return (
     <Layout title="About">
       <TopBar />
@@ -57,5 +57,3 @@ const AboutView = (): React.ReactElement => {
     </Layout>
   );
 };
-
-export default React.memo(AboutView);

@@ -9,7 +9,7 @@ interface PageProps {
   bodyAttributes: React.HTMLAttributes<HTMLElement>;
 }
 
-const Page = ({
+export const Page = ({
   rootElementId,
   head,
   markup,
@@ -32,5 +32,3 @@ const Page = ({
     </body>
   </html>
 );
-
-export default Page;

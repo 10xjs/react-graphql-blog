@@ -28,7 +28,8 @@ env:
 rules:
   graphql/template-strings:
     - error
-    - schemaJsonFilepath: schema.json
+    - env: literal
+      schemaJsonFilepath: schema.json
 
   # Require all code to be correctly formatted with Prettier.
   prettier/prettier: error
@@ -68,6 +69,13 @@ rules:
   # es syntax. Prefer the established _ prefix convention to define "private"
   # members.
   '@typescript-eslint/explicit-member-accessibility': off
+
+  '@typescript-eslint/camelcase': off
+
+  '@typescript-eslint/no-var-requires': off
+
+  'no-redeclare': off
+  'no-dupe-class-members': off
 
 overrides:
   # Enable the global jest environment in test files.

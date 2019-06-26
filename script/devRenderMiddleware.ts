@@ -1,4 +1,4 @@
-import path from 'path';
+import Path from 'path';
 import {RequestHandler} from 'express';
 import webpack from 'webpack';
 
@@ -13,11 +13,11 @@ sourceMapSupport.install({
 });
 
 const resolveModulePath = (fs: any, modulePath: string) => {
-  const filePath = path.resolve(__dirname, modulePath);
+  const filePath = Path.resolve(__dirname, modulePath);
   if (!fs.statSync(filePath).isDirectory()) {
     return filePath;
   }
-  return path.join(filePath, 'index.js');
+  return Path.join(filePath, 'index.js');
 };
 
 function watchCompiler(compiler: webpack.Compiler) {
@@ -70,7 +70,7 @@ function watchCompiler(compiler: webpack.Compiler) {
   };
 }
 
-function renderMiddleware(
+export function renderMiddleware(
   clientCompiler: webpack.Compiler,
   renderCompiler: webpack.Compiler,
 ) {
@@ -83,9 +83,11 @@ function renderMiddleware(
 
       const stats = await watchClient.stats();
 
-      const render = await watchRender.import('../dist/render/main.js');
+      const {render} = await watchRender.import(
+        Path.join(renderCompiler.outputPath, 'main.js'),
+      );
 
-      const {markup, statusCode} = await render.default({
+      const {markup, statusCode} = await render({
         path,
         stats: stats.toJson({
           source: false,
@@ -104,5 +106,3 @@ function renderMiddleware(
 
   return handler;
 }
-
-export default renderMiddleware;

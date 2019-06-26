@@ -21,3 +21,6 @@ dist
 
 # Test Coverage Output
 coverage
+
+# Generated graphql types
+__generated__

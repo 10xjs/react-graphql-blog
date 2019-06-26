@@ -3,12 +3,13 @@ import {hot} from 'react-hot-loader';
 import {ThemeProvider} from 'styled-components';
 import {Route, Switch} from 'react-router-dom';
 
-import theme from '/theme';
+import {theme} from '/theme';
 
-import HomeView from '/component/view/HomeView';
-import AboutView from '/component/view/AboutView';
-import ContactView from '/component/view/ContactView';
-import NotFoundView from '/component/view/NotFoundView';
+import {HomeView} from '/component/view/HomeView';
+import {AboutView} from '/component/view/AboutView';
+import {ContactView} from '/component/view/ContactView';
+import {BlogPostView} from '/component/view/BlogPostView';
+import {NotFoundView} from '/component/view/NotFoundView';
 
 const AppRoot = (): React.ReactElement => {
   return (
@@ -17,6 +18,7 @@ const AppRoot = (): React.ReactElement => {
         <Route exact path="/" component={HomeView} />
         <Route exact path="/about" component={AboutView} />
         <Route exact path="/contact" component={ContactView} />
+        <Route exact path="/post/:slug" component={BlogPostView} />
         <Route component={NotFoundView} />
       </Switch>
     </ThemeProvider>
@@ -26,4 +28,6 @@ const AppRoot = (): React.ReactElement => {
 AppRoot.rootElementId = 'root';
 AppRoot.stateElementId = 'state';
 
-export default hot(module)(AppRoot);
+const HotAppRoot = hot(module)(AppRoot);
+
+export {HotAppRoot as AppRoot};

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import useHTTPStatus from '/component/util/useHTTPStatus';
+import {useHTTPStatus} from '/util/routerHooks';
 
-import Layout from '/component/partial/Layout';
-import TopBar from '/component/partial/TopBar';
+import {Layout} from '/component/partial/Layout';
+import {TopBar} from '/component/partial/TopBar';
 
-const NotFoundView = (): React.ReactElement => {
+export const NotFoundView = (): React.ReactElement => {
   useHTTPStatus(404);
 
   return (
@@ -15,5 +15,3 @@ const NotFoundView = (): React.ReactElement => {
     </Layout>
   );
 };
-
-export default React.memo(NotFoundView);

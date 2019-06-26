@@ -22,3 +22,7 @@ declare module 'react-router' {
 }
 
 export type Render = (props: Props) => RenderResult | Promise<RenderResult>;
+
+export interface RenderModule {
+  render: Render;
+}

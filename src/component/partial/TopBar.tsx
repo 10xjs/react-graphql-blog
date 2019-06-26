@@ -10,7 +10,7 @@ const Root = styled.div`
   padding: 16px 0;
 `;
 
-const TopBar = (props: StyledComponentAttributes<typeof Root>) => {
+export const TopBar = (props: StyledComponentAttributes<typeof Root>) => {
   return (
     <Root {...props}>
       <NavLink to={{pathname: '/'}}>Home</NavLink>{' '}
@@ -19,5 +19,3 @@ const TopBar = (props: StyledComponentAttributes<typeof Root>) => {
     </Root>
   );
 };
-
-export default React.memo(TopBar);

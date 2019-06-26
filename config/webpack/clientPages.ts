@@ -4,16 +4,15 @@ import webpack from 'webpack';
 // @ts-ignore
 import PagesPlugin from 'pages-webpack-plugin';
 
-import {Render} from '/render/types';
+import {RenderModule} from '/render/types';
 
 import clientConfig from './client';
+import renderConfig from './render';
 
-const render = require(path.join(
-  clientConfig.context || '',
-  'dist',
-  'render',
+const {render} = require(path.join(
+  renderConfig.output.path,
   'main.js',
-)).default as Render;
+)) as RenderModule;
 
 const config = {
   ...clientConfig,

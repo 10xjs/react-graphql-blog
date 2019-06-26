@@ -12,8 +12,8 @@ import {Stats} from 'webpack';
 import nodeFetch from 'node-fetch';
 
 import {Client} from '/apollo/Client';
-import AppRoot from '/component/root/AppRoot';
-import Page from './Page';
+import {AppRoot} from '/component/root/AppRoot';
+import {Page} from './Page';
 import {renderAssets} from './assets';
 
 import {Render} from './types';
@@ -89,30 +89,33 @@ function renderPage(
   );
 }
 
-const render: Render = async ({stats, path}) => {
-  const location = path.replace(/index\.html$/, '');
+export const render: Render = async ({stats, path}) => {
+  try {
+    const location = path.replace(/index\.html$/, '');
 
-  const client = new Client({ssrMode: true, fetch: nodeFetch as any});
+    const client = new Client({ssrMode: true, fetch: nodeFetch as any});
 
-  let result = await renderApp(client, location, getDataFromTree);
+    let result = await renderApp(client, location, getDataFromTree);
 
-  const state = client.extract();
+    const state = client.extract();
 
-  if (result.routerContext.location === undefined) {
-    result = await renderApp(client, location);
+    if (result.routerContext.location === undefined) {
+      result = await renderApp(client, location);
+    }
+
+    return {
+      statusCode: result.routerContext.statusCode || 200,
+      location: result.routerContext.location,
+      markup: renderPage(
+        result.markup,
+        state,
+        result.helmetContext.helmet,
+        result.serverStyleSheet,
+        stats,
+      ),
+    };
+  } catch (e) {
+    console.error(e);
+    throw e;
   }
-
-  return {
-    statusCode: result.routerContext.statusCode || 200,
-    location: result.routerContext.location,
-    markup: renderPage(
-      result.markup,
-      state,
-      result.helmetContext.helmet,
-      result.serverStyleSheet,
-      stats,
-    ),
-  };
 };
-
-export default render;

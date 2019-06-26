@@ -2,14 +2,13 @@
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
-import { BlogPostWhereInput, BlogPostOrderByInput, Status } from "./../../../../__generated__/globalTypes";
+import { BlogPostWhereInput, BlogPostOrderByInput } from "./../../../__generated__/schema";
 
 // ====================================================
 // GraphQL query operation: HomeViewQuery
 // ====================================================
 
 export interface HomeViewQuery_blogPosts_pageInfo {
-  __typename: "PageInfo";
   /**
    * When paginating forwards, are there more items?
    */
@@ -29,23 +28,17 @@ export interface HomeViewQuery_blogPosts_pageInfo {
 }
 
 export interface HomeViewQuery_blogPosts_aggregate {
-  __typename: "AggregateBlogPost";
   count: number;
 }
 
 export interface HomeViewQuery_blogPosts_edges_node {
-  __typename: "BlogPost";
-  status: Status;
-  updatedAt: any;
-  createdAt: any;
   id: string;
   title: string;
-  content: string | null;
+  createdAt: GraphQL.DateTime;
   slug: string;
 }
 
 export interface HomeViewQuery_blogPosts_edges {
-  __typename: "BlogPostEdge";
   /**
    * The item at the end of the edge.
    */
@@ -53,7 +46,6 @@ export interface HomeViewQuery_blogPosts_edges {
 }
 
 export interface HomeViewQuery_blogPosts {
-  __typename: "BlogPostConnection";
   /**
    * Information to aid in pagination.
    */

@@ -35,6 +35,6 @@
       "name": "typescript-styled-plugin"
     }
   ],
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "**/*.worker.ts"],
   "include": ["src", "script", "config", "type"]
 }
