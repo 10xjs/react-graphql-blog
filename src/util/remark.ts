@@ -9,7 +9,7 @@ const parser = unified().use(remarkParse);
 
 const cache = new RollingMap<string, ReturnType<typeof parser.parse>>(10);
 
-export function useRemarkParse(source: string) {
+export function parseMarkdown(source: string) {
   if (cache.has(source)) {
     return cache.get(source);
   }

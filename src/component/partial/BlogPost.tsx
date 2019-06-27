@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 
 import {useDateTimeFormat} from '/util/intlHooks';
 
-import {Markdown} from '/component/base/Markdown';
+import {Markdown} from '/component/partial/Markdown';
 
 import {BlogPost_BlogPost} from './__generated__/BlogPost_BlogPost';
 export {BlogPost_BlogPost};

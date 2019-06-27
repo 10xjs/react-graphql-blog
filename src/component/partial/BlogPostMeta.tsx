@@ -2,8 +2,9 @@ import React from 'react';
 import {Helmet} from 'react-helmet-async';
 import gql from 'graphql-tag';
 
-import {useRemarkParse} from '/util/useRemarkParse';
+import {parseMarkdown} from '/util/remark';
 import {pathFor} from '/util/path';
+import {parseAssetURL, formatAssetURL} from '/util/asset';
 
 import {BlogPostMeta_BlogPost} from './__generated__/BlogPostMeta_BlogPost';
 
@@ -132,7 +133,7 @@ interface Props {
 }
 
 export const BlogPostMeta = ({blogPost}: Props) => {
-  const ast = useRemarkParse(blogPost.content);
+  const ast = parseMarkdown(blogPost.content);
 
   const description = React.useMemo(() => {
     if (blogPost.description) {
@@ -148,6 +149,28 @@ export const BlogPostMeta = ({blogPost}: Props) => {
   }, [blogPost.description, ast]);
 
   const image = React.useMemo(() => astToImage(ast), [ast]);
+
+  const handle = image && parseAssetURL(image.url);
+
+  const twitterImg = handle
+    ? formatAssetURL(handle, [
+        {type: 'resize', width: 1200, height: 675, fit: 'crop'},
+        {type: 'output', format: 'jpg', strip: true},
+        {type: 'compress', quality: 80},
+      ])
+    : image
+    ? image.url
+    : undefined;
+
+  const ogImg = handle
+    ? formatAssetURL(handle, [
+        {type: 'resize', width: 1200, height: 1200, fit: 'clip'},
+        {type: 'output', format: 'jpg', strip: true},
+        {type: 'compress', quality: 80},
+      ])
+    : image
+    ? image.url
+    : undefined;
 
   const baseURL = '';
 
@@ -170,8 +193,8 @@ export const BlogPostMeta = ({blogPost}: Props) => {
       <meta property="og:url" content={baseURL + pathFor(blogPost)} />
       <meta property="al:web:url" content={baseURL + pathFor(blogPost)} />
       <link rel="canonical" href={baseURL + pathFor(blogPost)} />
-      {image && <meta property="og:image" content={image.url} />}
-      {image && <meta name="twitter:image" content={image.url} />}
+      {ogImg && <meta property="og:image" content={ogImg} />}
+      {twitterImg && <meta name="twitter:image" content={twitterImg} />}
       {image && image.alt && (
         <meta name="twitter:image:alt" content={image.alt} />
       )}
