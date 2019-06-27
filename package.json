@@ -1,7 +1,7 @@
 {
-  "name": "static-boilerplate",
+  "name": "react-graphql-blog",
   "version": "0.1.0",
-  "description": "A static site site generator boilerplate built with React, Webpack and TypeScript.",
+  "description": "A blog app built with React, GraphQL, and TypeScript.",
   "main": "index.js",
   "scripts": {
     "start": "npm run dev-server",
