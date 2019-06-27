@@ -2,7 +2,7 @@ import React from 'react';
 import {Helmet} from 'react-helmet-async';
 import gql from 'graphql-tag';
 
-import {parseMarkdown} from '/util/remark';
+import {parseMarkdown, astToImage, astToText} from '/util/remark';
 import {pathFor} from '/util/path';
 import {parseAssetURL, formatAssetURL} from '/util/asset';
 
@@ -25,108 +25,6 @@ export const BlogPostMetaFragments = {
     }
   `,
 };
-
-function astToText(node: any, targetLength: number): string {
-  if (targetLength < 1) {
-    return '';
-  }
-
-  if (node.type === 'text') {
-    return node.value;
-  }
-
-  if (node.type === 'inlineCode') {
-    return `\`${node.value}\``;
-  }
-
-  if (node.type === 'code') {
-    return `\n\n\`\`\`\n${node.value}\n\`\`\``;
-  }
-
-  if (node.type === 'image') {
-    return `[${node.alt}]`;
-  }
-
-  if (node.children && node.children.length) {
-    if (
-      node.type === 'emphasis' ||
-      node.type == 'strong' ||
-      node.type === 'listItem' ||
-      node.type === 'underline' ||
-      node.type === 'link'
-    ) {
-      return astToText(node.children[0], targetLength);
-    }
-
-    if (
-      node.type === 'heading' ||
-      node.type === 'paragraph' ||
-      node.type === 'list' ||
-      node.type === 'blockquote' ||
-      node.type === 'root'
-    ) {
-      let result = '';
-
-      for (
-        let i = 0;
-        i < node.children.length && result.length < targetLength;
-        i++
-      ) {
-        const childNode = node.children[i];
-        const chunk = astToText(childNode, targetLength - result.length);
-
-        if (chunk) {
-          if (
-            (node.type !== 'root' || i > 0) &&
-            (childNode.type === 'heading' ||
-              childNode.type === 'paragraph' ||
-              childNode.type === 'list')
-          ) {
-            result += '\n\n';
-          }
-
-          if (node.type === 'list') {
-            if (i > 0) {
-              result += '\n';
-            }
-            result += node.ordered ? `${i + 1}. ` : `- `;
-            result += chunk
-              .replace(/(^\s+|\s+$)/g, '')
-              .replace(/(\n+)/, node.ordered ? '$1   ' : '$1  ');
-          } else {
-            if (
-              result &&
-              !/\s$/.test(result) &&
-              (chunk && !/^\s/.test(chunk))
-            ) {
-              result += ' ';
-            }
-            result += chunk;
-          }
-        }
-      }
-
-      return result;
-    }
-  }
-
-  return '';
-}
-
-function astToImage(node: any): {url: string; alt: string | null} | void {
-  if (node.type === 'image') {
-    return node;
-  }
-
-  if (node.children && node.children.length) {
-    for (let i = 0; i < node.children.length; i++) {
-      const result = astToImage(node.children[i]);
-      if (result) {
-        return result;
-      }
-    }
-  }
-}
 
 interface Props {
   blogPost: BlogPostMeta_BlogPost;
@@ -152,7 +50,7 @@ export const BlogPostMeta = ({blogPost}: Props) => {
 
   const handle = image && parseAssetURL(image.url);
 
-  const twitterImg = handle
+  const twitterImage = handle
     ? formatAssetURL(handle, [
         {type: 'resize', width: 1200, height: 675, fit: 'crop'},
         {type: 'output', format: 'jpg', strip: true},
@@ -162,7 +60,7 @@ export const BlogPostMeta = ({blogPost}: Props) => {
     ? image.url
     : undefined;
 
-  const ogImg = handle
+  const ogImage = handle
     ? formatAssetURL(handle, [
         {type: 'resize', width: 1200, height: 1200, fit: 'clip'},
         {type: 'output', format: 'jpg', strip: true},
@@ -193,8 +91,8 @@ export const BlogPostMeta = ({blogPost}: Props) => {
       <meta property="og:url" content={baseURL + pathFor(blogPost)} />
       <meta property="al:web:url" content={baseURL + pathFor(blogPost)} />
       <link rel="canonical" href={baseURL + pathFor(blogPost)} />
-      {ogImg && <meta property="og:image" content={ogImg} />}
-      {twitterImg && <meta name="twitter:image" content={twitterImg} />}
+      {ogImage && <meta property="og:image" content={ogImage} />}
+      {twitterImage && <meta name="twitter:image" content={twitterImage} />}
       {image && image.alt && (
         <meta name="twitter:image:alt" content={image.alt} />
       )}
