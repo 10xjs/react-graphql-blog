@@ -3,12 +3,16 @@ import unified from 'unified';
 // @ts-ignore
 import remarkParse from 'remark-parse';
 
-import {RollingMap} from '/util/RollingMap';
+import {RollingMap} from '/util/collection';
 
 const parser = unified().use(remarkParse);
 
 const cache = new RollingMap<string, ReturnType<typeof parser.parse>>(10);
 
+/**
+ * Parse a markdown string to an ast using remark. Parse results are cached to
+ * improve performance of sequential calls with the same markdown string.
+ */
 export function parseMarkdown(source: string) {
   if (cache.has(source)) {
     return cache.get(source);
@@ -21,6 +25,10 @@ export function parseMarkdown(source: string) {
   return ast;
 }
 
+/**
+ * Converts a parsed markdown ast to a plain string representation.
+ * Returns a a string at least as long as targetLength if possible.
+ */
 export function astToText(node: any, targetLength: number): string {
   if (targetLength < 1) {
     return '';
@@ -108,6 +116,10 @@ export function astToText(node: any, targetLength: number): string {
   return '';
 }
 
+/**
+ * Extracts the url and alt text of the first image node encountered in a
+ * parsed markdown ast.
+ */
 export function astToImage(
   node: any,
 ): {url: string; alt: string | null} | void {

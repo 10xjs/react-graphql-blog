@@ -1,4 +1,4 @@
-import {RollingMap} from './RollingMap';
+import {RollingMap} from './collection';
 
 describe('RollingMap', () => {
   it('should behave like a Map', () => {
