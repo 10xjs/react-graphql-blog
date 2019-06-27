@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import {useQuery} from '@apollo/react-hooks';
 
 import {useDateTimeFormat} from '/util/intlHooks';
+import {pathFor} from '/util/path';
 
 import {BlogPostPreview_BlogPost} from './__generated__/BlogPostPreview_BlogPost';
 export {BlogPostPreview_BlogPost};
@@ -37,7 +38,7 @@ export const BlogPostPreview = ({blogPost}: Props) => {
 
   return (
     <article>
-      <Link to={{pathname: `/post/${blogPost.handle}`}}>
+      <Link to={{pathname: pathFor(blogPost)}}>
         <h2>{blogPost.title}</h2>
       </Link>
       <time dateTime={blogPost.publishedAt || blogPost.createdAt}>

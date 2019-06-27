@@ -3,12 +3,14 @@ import {Helmet} from 'react-helmet-async';
 import gql from 'graphql-tag';
 
 import {useRemarkParse} from '/util/useRemarkParse';
+import {pathFor} from '/util/path';
 
 import {BlogPostMeta_BlogPost} from './__generated__/BlogPostMeta_BlogPost';
 
 export const BlogPostMetaFragments = {
   BlogPost: gql`
     fragment BlogPostMeta_BlogPost on BlogPost {
+      status
       title
       createdAt
       publishedAt
@@ -147,11 +149,13 @@ export const BlogPostMeta = ({blogPost}: Props) => {
 
   const image = React.useMemo(() => astToImage(ast), [ast]);
 
-  const baseUrl = '';
+  const baseURL = '';
 
-  const url = `${baseUrl}/post/${blogPost.handle}`;
   return (
     <Helmet>
+      {blogPost.status !== 'PUBLISHED' && (
+        <meta name="robots" content="noindex" />
+      )}
       <meta property="og:type" content="article" />
       <meta
         property="article:published_time"
@@ -163,9 +167,9 @@ export const BlogPostMeta = ({blogPost}: Props) => {
       <meta name="description" content={description} />
       <meta property="og:description" content={description} />
       <meta property="twitter:description" content={description} />
-      <meta property="og:url" content={url} />
-      <meta property="al:web:url" content={url} />
-      <link rel="canonical" href={url} />
+      <meta property="og:url" content={baseURL + pathFor(blogPost)} />
+      <meta property="al:web:url" content={baseURL + pathFor(blogPost)} />
+      <link rel="canonical" href={baseURL + pathFor(blogPost)} />
       {image && <meta property="og:image" content={image.url} />}
       {image && <meta name="twitter:image" content={image.url} />}
       {image && image.alt && (
@@ -175,11 +179,11 @@ export const BlogPostMeta = ({blogPost}: Props) => {
       {blogPost.author && (
         <meta
           property="article:author"
-          content={`/people/${blogPost.author.handle}`}
+          content={baseURL + pathFor(blogPost.author)}
         />
       )}
       {blogPost.author && (
-        <link rel="author" href={`/people/${blogPost.author.handle}`} />
+        <link rel="author" href={baseURL + pathFor(blogPost.author)} />
       )}
       {/* {blogPost.author && <meta name="twitter:creator" content="@username" />} */}
       {blogPost.author && <meta name="author" content={blogPost.author.name} />}

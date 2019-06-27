@@ -8,25 +8,13 @@ import {TopBar} from '/component/partial/TopBar';
 
 import {BlogList, BlogListFramgents} from '/component/partial/BlogList';
 
-import {BlogPostOrderByInput} from '../../__generated__/schema';
-
-import {
-  HomeViewQuery,
-  HomeViewQueryVariables,
-} from './__generated__/HomeViewQuery';
+import {HomeViewQuery} from './__generated__/HomeViewQuery';
 
 const HomeViewQuery = gql`
-  query HomeViewQuery(
-    $first: Int
-    $skip: Int
-    $where: BlogPostWhereInput
-    $orderBy: BlogPostOrderByInput
-  ) {
+  query HomeViewQuery {
     blogPosts: blogPostsConnection(
-      first: $first
-      skip: $skip
-      where: $where
-      orderBy: $orderBy
+      where: {status: PUBLISHED}
+      orderBy: createdAt_DESC
     ) {
       ...BlogList_BlogPostsConnection
     }
@@ -38,27 +26,19 @@ const HomeViewQuery = gql`
 export const HomeView = (): React.ReactElement => {
   const partialData: HomeViewQuery = {
     blogPosts: {
-      pageInfo: {
-        hasNextPage: false,
-        hasPreviousPage: false,
-        startCursor: null,
-        endCursor: null,
-      },
-      aggregate: {
-        count: 0,
-      },
+      __typename: 'BlogPostConnection',
+      // pageInfo: {
+      //   __typename: 'PageInfo',
+      //   hasNextPage: false,
+      //   hasPreviousPage: false,
+      //   startCursor: null,
+      //   endCursor: null,
+      // },
       edges: [],
     },
   };
 
-  const result = useQuery<HomeViewQuery, HomeViewQueryVariables>(
-    HomeViewQuery,
-    {
-      variables: {
-        orderBy: BlogPostOrderByInput.createdAt_DESC,
-      },
-    },
-  );
+  const result = useQuery<HomeViewQuery, never>(HomeViewQuery);
 
   const data = merge(partialData, result.data || {});
 

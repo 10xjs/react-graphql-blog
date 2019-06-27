@@ -16,6 +16,8 @@ import {
 
 import {NotFoundView} from '/component/view/NotFoundView';
 
+import {Status} from '/__generated__/schema';
+
 import {
   BlogPostViewQuery,
   BlogPostViewQueryVariables,
@@ -49,6 +51,8 @@ export const BlogPostView = ({match}: Props) => {
 
   const partialData: BlogPostViewQuery = {
     blogPost: {
+      __typename: 'BlogPost',
+      status: Status.PUBLISHED,
       title: '------',
       handle: match.params.handle,
       createdAt: '',

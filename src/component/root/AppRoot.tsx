@@ -5,6 +5,8 @@ import {Route, Switch} from 'react-router-dom';
 
 import {theme} from '/theme';
 
+import {paths} from '/util/path';
+
 import {HomeView} from '/component/view/HomeView';
 import {AboutView} from '/component/view/AboutView';
 import {ContactView} from '/component/view/ContactView';
@@ -18,7 +20,7 @@ const AppRoot = (): React.ReactElement => {
         <Route exact path="/" component={HomeView} />
         <Route exact path="/about" component={AboutView} />
         <Route exact path="/contact" component={ContactView} />
-        <Route exact path="/post/:handle" component={BlogPostView} />
+        <Route exact path={paths.BlogPost} component={BlogPostView} />
         <Route component={NotFoundView} />
       </Switch>
     </ThemeProvider>

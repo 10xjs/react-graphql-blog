@@ -15,15 +15,12 @@ export {BlogList_BlogPostsConnection, BlogList_BlogPostsConnection_edges};
 export const BlogListFramgents = {
   BlogPostsConnection: gql`
     fragment BlogList_BlogPostsConnection on BlogPostConnection {
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        startCursor
-        endCursor
-      }
-      aggregate {
-        count
-      }
+      # pageInfo {
+      #   hasNextPage
+      #   hasPreviousPage
+      #   startCursor
+      #   endCursor
+      # }
       edges {
         node {
           id

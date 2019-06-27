@@ -11,6 +11,7 @@ export {BlogPost_BlogPost};
 export const BlogPostFragments = {
   BlogPost: gql`
     fragment BlogPost_BlogPost on BlogPost {
+      status
       title
       createdAt
       handle
@@ -33,7 +34,10 @@ export const BlogPost = ({blogPost}: Props) => {
           year: 'numeric',
         })}
       </time>
-      <h2>{blogPost.title}</h2>
+      <h2>
+        {blogPost.title}
+        {blogPost.status === 'DRAFT' && ' [DRAFT]'}
+      </h2>
       <Markdown source={blogPost.content} />
     </article>
   );
