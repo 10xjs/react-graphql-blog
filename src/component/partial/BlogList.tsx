@@ -9,7 +9,7 @@ import {
 import {
   BlogList_BlogPostsConnection,
   BlogList_BlogPostsConnection_edges,
-} from './__generated__/BlogList_BlogPostsConnection';
+} from '/__generated__/BlogList_BlogPostsConnection';
 export {BlogList_BlogPostsConnection, BlogList_BlogPostsConnection_edges};
 
 export const BlogListFramgents = {

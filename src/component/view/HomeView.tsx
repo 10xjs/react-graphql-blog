@@ -8,7 +8,7 @@ import {TopBar} from '/component/partial/TopBar';
 
 import {BlogList, BlogListFramgents} from '/component/partial/BlogList';
 
-import {HomeViewQuery} from './__generated__/HomeViewQuery';
+import {HomeViewQuery} from '/__generated__/HomeViewQuery';
 
 const HomeViewQuery = gql`
   query HomeViewQuery {

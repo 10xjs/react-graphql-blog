@@ -14,7 +14,7 @@
     "test:types": "npx tsc --noEmit",
     "test:spec": "npx jest --runInBand=${SPEC_SERIAL:-$CI} --coverage=${SPEC_COVERAGE:-$CI}",
     "test": "npm run test:types --slient && npm run test:lint --slient",
-    "graphql:generate": "npx apollo client:codegen --target=typescript --passthroughCustomScalars --customScalarsPrefix=GraphQL. --globalTypesFile=src/__generated__/schema.ts",
+    "graphql:generate": "npx apollo client:codegen --target=typescript --passthroughCustomScalars --customScalarsPrefix=GraphQL. --globalTypesFile=src/__generated__/global.ts --outputFlat src/__generated__/",
     "graphql:generate-watch": "npm run graphql:generate -- --watch",
     "graphql:download-schema": "npx apollo client:download-schema",
     "prepare": "npm run graphql:generate"

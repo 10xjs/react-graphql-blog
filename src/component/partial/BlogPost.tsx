@@ -5,7 +5,7 @@ import {useDateTimeFormat} from '/hook/intl';
 
 import {Markdown} from '/component/partial/Markdown';
 
-import {BlogPost_BlogPost} from './__generated__/BlogPost_BlogPost';
+import {BlogPost_BlogPost} from '/__generated__/BlogPost_BlogPost';
 export {BlogPost_BlogPost};
 
 export const BlogPostFragments = {

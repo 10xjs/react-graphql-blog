@@ -6,7 +6,7 @@ import {parseMarkdown, astToImage, astToText} from '/module/remark';
 import {pathFor} from '/module/path';
 import {parseAssetURL, AssetURLBuilder} from '/module/asset';
 
-import {BlogPostMeta_BlogPost} from './__generated__/BlogPostMeta_BlogPost';
+import {BlogPostMeta_BlogPost} from '/__generated__/BlogPostMeta_BlogPost';
 
 export const BlogPostMetaFragments = {
   BlogPost: gql`

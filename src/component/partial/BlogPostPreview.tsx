@@ -7,7 +7,7 @@ import {pathFor} from '/module/path';
 
 import {useDateTimeFormat} from '/hook/intl';
 
-import {BlogPostPreview_BlogPost} from './__generated__/BlogPostPreview_BlogPost';
+import {BlogPostPreview_BlogPost} from '/__generated__/BlogPostPreview_BlogPost';
 export {BlogPostPreview_BlogPost};
 
 export const BlogPostPreviewFragments = {

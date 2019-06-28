@@ -16,12 +16,12 @@ import {
 
 import {NotFoundView} from '/component/view/NotFoundView';
 
-import {Status} from '/__generated__/schema';
+import {Status} from '/__generated__/global';
 
 import {
   BlogPostViewQuery,
   BlogPostViewQueryVariables,
-} from './__generated__/BlogPostViewQuery';
+} from '/__generated__/BlogPostViewQuery';
 export {BlogPostViewQuery, BlogPostViewQueryVariables};
 
 interface Params {
