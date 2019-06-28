@@ -1,5 +1,5 @@
-import {hljs} from '/util/hljs';
-import {RollingMap} from '/util/collection';
+import {hljs} from '/module/hljs';
+import {RollingMap} from '/module/collection';
 
 import {HLJSWorker} from './types';
 

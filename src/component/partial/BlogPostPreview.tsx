@@ -3,8 +3,9 @@ import gql from 'graphql-tag';
 import {Link} from 'react-router-dom';
 import {useQuery} from '@apollo/react-hooks';
 
-import {useDateTimeFormat} from '/util/intlHooks';
-import {pathFor} from '/util/path';
+import {pathFor} from '/module/path';
+
+import {useDateTimeFormat} from '/hook/intl';
 
 import {BlogPostPreview_BlogPost} from './__generated__/BlogPostPreview_BlogPost';
 export {BlogPostPreview_BlogPost};

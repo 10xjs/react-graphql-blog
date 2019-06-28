@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import {useQuery} from '@apollo/react-hooks';
 import merge from 'deepmerge';
 
-import {isNode} from '/util/platform';
+import {isNode} from '/module/target';
 
 import {Layout} from '/component/partial/Layout';
 import {TopBar} from '/component/partial/TopBar';

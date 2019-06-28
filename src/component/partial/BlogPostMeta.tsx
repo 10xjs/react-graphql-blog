@@ -2,9 +2,9 @@ import React from 'react';
 import {Helmet} from 'react-helmet-async';
 import gql from 'graphql-tag';
 
-import {parseMarkdown, astToImage, astToText} from '/util/remark';
-import {pathFor} from '/util/path';
-import {parseAssetURL, AssetURLBuilder} from '/util/asset';
+import {parseMarkdown, astToImage, astToText} from '/module/remark';
+import {pathFor} from '/module/path';
+import {parseAssetURL, AssetURLBuilder} from '/module/asset';
 
 import {BlogPostMeta_BlogPost} from './__generated__/BlogPostMeta_BlogPost';
 

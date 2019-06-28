@@ -1,7 +1,7 @@
 import React from 'react';
 import {createGlobalStyle} from 'styled-components';
 
-import {useHighlight} from '/util/useHighlight';
+import {useHighlight} from '/hook/hljs';
 
 export const HighlightStyle = createGlobalStyle`${
   require('raw-loader!highlight.js/styles/atom-one-dark.css').default

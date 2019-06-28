@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {hljs} from '/util/hljs';
+import {hljs} from '/module/hljs';
 
 export function useHighlight(language: string, value: string) {
   return React.useMemo(() => {

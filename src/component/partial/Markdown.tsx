@@ -9,8 +9,8 @@ import getDefinitions from 'react-markdown/lib/get-definitions';
 // @ts-ignore
 import transformLinkUri from 'react-markdown/lib/uri-transformer';
 
-import {parseMarkdown} from '/util/remark';
-import {parseAssetURL, AssetURLBuilder} from '/util/asset';
+import {parseMarkdown} from '/module/remark';
+import {parseAssetURL, AssetURLBuilder} from '/module/asset';
 
 import {Highlight} from '/component/base/Highlight';
 

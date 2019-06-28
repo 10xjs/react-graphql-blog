@@ -1,5 +1,5 @@
 // test
-import {extendable} from '/util/class';
+import {extendable} from '/module/class';
 /**
  * RollingMap implements a Map subclass with a maximum size. Old entries are
  * removed as new entires are added when the maximum size is reached.

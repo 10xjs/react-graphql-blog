@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useHTTPStatus} from '/util/routerHooks';
+import {useHTTPStatus} from '/hook/router';
 
 import {Layout} from '/component/partial/Layout';
 import {TopBar} from '/component/partial/TopBar';

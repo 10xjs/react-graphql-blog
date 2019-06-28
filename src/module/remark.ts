@@ -3,7 +3,7 @@ import unified from 'unified';
 // @ts-ignore
 import remarkParse from 'remark-parse';
 
-import {RollingMap} from '/util/collection';
+import {RollingMap} from '/module/collection';
 
 const parser = unified().use(remarkParse);
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 
-import {useDateTimeFormat} from '/util/intlHooks';
+import {useDateTimeFormat} from '/hook/intl';
 
 import {Markdown} from '/component/partial/Markdown';
 

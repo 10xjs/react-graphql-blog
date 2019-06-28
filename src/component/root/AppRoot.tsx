@@ -3,9 +3,9 @@ import {hot} from 'react-hot-loader';
 import {ThemeProvider} from 'styled-components';
 import {Route, Switch} from 'react-router-dom';
 
-import {theme} from '/theme';
+import {theme} from '/module/theme';
 
-import {paths} from '/util/path';
+import {paths} from '/module/path';
 
 import {HomeView} from '/component/view/HomeView';
 import {AboutView} from '/component/view/AboutView';
