@@ -10,7 +10,7 @@ import getDefinitions from 'react-markdown/lib/get-definitions';
 import transformLinkUri from 'react-markdown/lib/uri-transformer';
 
 import {parseMarkdown} from '/util/remark';
-import {parseAssetURL, formatAssetURL} from '/util/asset';
+import {parseAssetURL, AssetURLBuilder} from '/util/asset';
 
 import {Highlight} from '/component/base/Highlight';
 
@@ -28,38 +28,51 @@ const Image = ({key, src, title, alt}: ImageProps) => {
     return <img key={key} src={src} title={title} alt={alt} />;
   }
 
+  // TODO: Size fom asset url if defined in markdown
   const size = 700;
 
-  const src1xWEBP = formatAssetURL(handle, [
-    {type: 'resize', width: size, height: size},
-    {type: 'output', format: 'webp', strip: true},
-    {type: 'compress', quality: 80},
-  ]);
-  const src2xWEBP = formatAssetURL(handle, [
-    {type: 'resize', width: size * 2, height: size * 2},
-    {type: 'output', format: 'webp', strip: true},
-    {type: 'compress', quality: 80},
-  ]);
-  const src3xWEBP = formatAssetURL(handle, [
-    {type: 'resize', width: size * 3, height: size * 3},
-    {type: 'output', format: 'webp', strip: true},
-    {type: 'compress', quality: 80},
-  ]);
-  const src1xJPG = formatAssetURL(handle, [
-    {type: 'resize', width: size, height: size},
-    {type: 'output', format: 'jpg', strip: true},
-    {type: 'compress', quality: 80},
-  ]);
-  const src2xJPG = formatAssetURL(handle, [
-    {type: 'resize', width: size * 2, height: size * 2},
-    {type: 'output', format: 'jpg', strip: true},
-    {type: 'compress', quality: 80},
-  ]);
-  const src3xJPG = formatAssetURL(handle, [
-    {type: 'resize', width: size * 3, height: size * 3},
-    {type: 'output', format: 'jpg', strip: true},
-    {type: 'compress', quality: 80},
-  ]);
+  const url1x = new AssetURLBuilder().resize({
+    width: size,
+    height: size,
+  });
+  const url2x = new AssetURLBuilder().resize({
+    width: size * 2,
+    height: size * 2,
+  });
+  const url3x = new AssetURLBuilder().resize({
+    width: size * 3,
+    height: size * 3,
+  });
+
+  const src1xWEBP = url1x
+    .output({format: 'webp', strip: true})
+    .compress({quality: 80})
+    .build(handle);
+
+  const src2xWEBP = url2x
+    .output({format: 'webp', strip: true})
+    .compress({quality: 80})
+    .build(handle);
+
+  const src3xWEBP = url3x
+    .output({format: 'webp', strip: true})
+    .compress({quality: 80})
+    .build(handle);
+
+  const src1xJPG = url1x
+    .output({format: 'jpg', strip: true})
+    .compress({quality: 80})
+    .build(handle);
+
+  const src2xJPG = url2x
+    .output({format: 'jpg', strip: true})
+    .compress({quality: 80})
+    .build(handle);
+
+  const src3xJPG = url3x
+    .output({format: 'jpg', strip: true})
+    .compress({quality: 80})
+    .build(handle);
 
   return (
     <picture key={key}>

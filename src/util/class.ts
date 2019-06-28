@@ -8,6 +8,7 @@ const cache = new Map<Constructor, Constructor>();
  * Similar to the `_wrapNativeSuper` babel helper.
  *
  * Inspired by a proposal at https://github.com/microsoft/TypeScript/issues/15397
+ * @param Super built-in class constructor
  */
 export function extendable<T extends Constructor>(Super: T): T {
   if (!/\{ \[native code\] \}$/.test(Function.toString.call(Super))) {
@@ -19,7 +20,7 @@ export function extendable<T extends Constructor>(Super: T): T {
   }
 
   function Extendable(this: any): any {
-    const args: [any, ...unknown[]] = [Super];
+    const args: any = [Super];
     for (let i = 0; i < arguments.length; i++) {
       args[i + 1] = arguments[i];
     }

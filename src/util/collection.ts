@@ -5,7 +5,7 @@ import {extendable} from '/util/class';
  * removed as new entires are added when the maximum size is reached.
  */
 export class RollingMap<K, V> extends extendable(Map)<K, V> {
-  _maxSize: number;
+  private _maxSize: number;
 
   constructor(maxSize: number, entries?: Readonly<Readonly<[K, V]>[]> | null) {
     super(entries);
@@ -21,7 +21,7 @@ export class RollingMap<K, V> extends extendable(Map)<K, V> {
     this._trim();
   }
 
-  _trim() {
+  private _trim() {
     if (this.size > this.maxSize) {
       this.delete(this.keys().next().value);
     }

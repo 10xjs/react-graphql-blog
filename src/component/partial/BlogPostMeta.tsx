@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 
 import {parseMarkdown, astToImage, astToText} from '/util/remark';
 import {pathFor} from '/util/path';
-import {parseAssetURL, formatAssetURL} from '/util/asset';
+import {parseAssetURL, AssetURLBuilder} from '/util/asset';
 
 import {BlogPostMeta_BlogPost} from './__generated__/BlogPostMeta_BlogPost';
 
@@ -30,6 +30,24 @@ interface Props {
   blogPost: BlogPostMeta_BlogPost;
 }
 
+const twitterImageURL = new AssetURLBuilder()
+  .resize({
+    width: 1200,
+    height: 675,
+    fit: 'crop',
+  })
+  .output({format: 'jpg', strip: true})
+  .compress({quality: 80});
+
+const ogImageURL = new AssetURLBuilder()
+  .resize({
+    width: 1200,
+    height: 1200,
+    fit: 'clip',
+  })
+  .output({format: 'jpg', strip: true})
+  .compress({quality: 80});
+
 export const BlogPostMeta = ({blogPost}: Props) => {
   const ast = parseMarkdown(blogPost.content);
 
@@ -51,21 +69,13 @@ export const BlogPostMeta = ({blogPost}: Props) => {
   const handle = image && parseAssetURL(image.url);
 
   const twitterImage = handle
-    ? formatAssetURL(handle, [
-        {type: 'resize', width: 1200, height: 675, fit: 'crop'},
-        {type: 'output', format: 'jpg', strip: true},
-        {type: 'compress', quality: 80},
-      ])
+    ? twitterImageURL.build(handle)
     : image
     ? image.url
     : undefined;
 
   const ogImage = handle
-    ? formatAssetURL(handle, [
-        {type: 'resize', width: 1200, height: 1200, fit: 'clip'},
-        {type: 'output', format: 'jpg', strip: true},
-        {type: 'compress', quality: 80},
-      ])
+    ? ogImageURL.build(handle)
     : image
     ? image.url
     : undefined;
